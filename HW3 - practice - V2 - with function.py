@@ -62,8 +62,10 @@ def get_sentiment():
         for sentence in blob.sentences:
             polarity_list.append(sentence.polarity)
             subjectivity_list.append(sentence.subjectivity)
+        print()
         print("Average IMDb review polarity:",sum(polarity_list)/len(polarity_list))
         print("Average IMDb review subjectivity:",sum(subjectivity_list)/len(subjectivity_list))
+        print()
     else:
         print("Sorry, the tool could not successfully load any IMDb reviews for this movie. Please try another analysis or movie.")
 
