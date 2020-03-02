@@ -116,5 +116,25 @@ while repeat_blob.correct().lower() == "yes":
     
     
 
+######### Sentiment Function Correction ########### Check and put it at the top
+def get_sentiment():
+    response_2 = requests.get(imdb_url)
+    if response_2:
+        imdb_data = json.loads(response_2.text)   # parsing to json
+        review_string = ""  # creating a list to put all the review texts in it
+        for line in imdb_data:                               
+            review_string = review_string + line["Review text"]  #putting only the review texts into the list and exlude dates and number of stars
+        blob = textblob.TextBlob(review_string)  # creating a blob object from all the review text strings
+        polarity_list = []
+        subjectivity_list = []
+        for sentence in blob.sentences:
+            polarity_list.append(sentence.polarity)
+            subjectivity_list.append(sentence.subjectivity)
+        print()
+        print("Average IMDb review polarity:",sum(polarity_list)/len(polarity_list))
+        print("Average IMDb review subjectivity:",sum(subjectivity_list)/len(subjectivity_list))
+        print()
+    else:
+        print("Sorry, the tool could not successfully load any IMDb reviews for this movie. Please try another analysis or movie.")
 
 
