@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import skimage.io
 # import WordCloud
 
-# functions
+# DEFINING FUNCTIONS
 def get_poster():
     movie_poster_url = omdb_data["root"]["movie"]["@poster"]
     movie_poster = skimage.io.imread(movie_poster_url)
@@ -56,16 +56,12 @@ def get_sentiment():
         for line in imdb_data:                               
             review_list.append(line["Review text"])  #putting only the review texts into the list and exlude dates and number of stars
         review_string = ''.join(review_list)  # creating a variable to convert review_list to string - TextxBlob only accepts string.
-    #                           print(review_string)
         blob = textblob.TextBlob(review_string)  # creating a blob object from all the review text strings
-    #                           print(blob)
         polarity_list = []
         subjectivity_list = []
         for sentence in blob.sentences:
             polarity_list.append(sentence.polarity)
             subjectivity_list.append(sentence.subjectivity)
-    #                           print(polarity_list)
-    #                           print(subjectivity_list)
         print("Average IMDb review polarity:",sum(polarity_list)/len(polarity_list))
         print("Average IMDb review subjectivity:",sum(subjectivity_list)/len(subjectivity_list))
     else:
