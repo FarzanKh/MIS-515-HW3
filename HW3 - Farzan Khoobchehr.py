@@ -20,7 +20,7 @@ def get_poster():
     plt.show()
 
 
-def get_background():
+def get_background(): # the function which gives us a summary and background of a movie
     print()
     movie_year = omdb_data["root"]["movie"]["@year"]
     movie_rated = omdb_data["root"]["movie"]["@rated"]
@@ -37,7 +37,7 @@ def get_background():
     print()
 
 
-def get_reception():
+def get_reception(): # the function that gives us the names and numbers of awards
     print()
     movie_awards = omdb_data["root"]["movie"]["@awards"]
     movie_metascore = omdb_data["root"]["movie"]["@metascore"]
@@ -47,7 +47,7 @@ def get_reception():
     print("IMDB Rating:",movie_imdb_rating)
     print()
     
-def get_sentiment():
+def get_sentiment():  # the function that does the sentiment analysis
     response_2 = requests.get(imdb_url)
     if response_2:
         imdb_data = json.loads(response_2.text)   # parsing to json
@@ -69,7 +69,7 @@ def get_sentiment():
   
 
 
-def get_wordcloud():
+def get_wordcloud():  # the function which generates a wordcloud
     response_2 = requests.get(imdb_url)
     if response_2:
         additions = ["film", "movie", "story", "character"]
@@ -124,3 +124,4 @@ while repeat_blob.correct().lower() == "yes":
         print("Sorry, we're having an issue. Please try again")
     repeat_blob = textblob.TextBlob(input("Would you like to analyze another movie(yes/no)? "))
     
+
