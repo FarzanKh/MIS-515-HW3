@@ -51,15 +51,12 @@ def get_sentiment():  # the function that does the sentiment analysis
     response_2 = requests.get(imdb_url)
     if response_2:
         imdb_data = json.loads(response_2.text)   # parsing to json
-        review_string = ""  # creating a list to put all the review texts in it
-        for line in imdb_data:                               
-            review_string = review_string + line["Review text"]  #putting only the review texts into the list and exlude dates and number of stars
-        blob = textblob.TextBlob(review_string)  # creating a blob object from all the review text strings
         polarity_list = []
         subjectivity_list = []
-        for sentence in blob.sentences:
-            polarity_list.append(sentence.polarity)
-            subjectivity_list.append(sentence.subjectivity)
+        for line in imdb_data:                               
+            review_blob = textblob.TextBlob(line["Review text"]) #putting only the review texts into the list and exlude dates and number of stars
+            polarity_list.append(review_blob.polarity)
+            subjectivity_list.append(review_blob.subjectivity)
         print()
         print("Average IMDb review polarity:",sum(polarity_list)/len(polarity_list))
         print("Average IMDb review subjectivity:",sum(subjectivity_list)/len(subjectivity_list))
@@ -89,8 +86,9 @@ def get_wordcloud():  # the function which generates a wordcloud
 
 
 print("Welcome to the movie analytics tool!")
+print()
 repeat_blob = textblob.TextBlob("yes")
-while repeat_blob.correct().lower() == "yes":
+while repeat_blob.lower().correct() == "yes":
     try:
         movie_name = input("What movie would you like to analyze? ")
         omdb_url = "https://www.omdbapi.com/?r=xml&apikey=7e722195&t="+movie_name
@@ -101,17 +99,17 @@ while repeat_blob.correct().lower() == "yes":
             check_true = omdb_data["root"]["@response"]
             if check_true == "True":
                 further_analyze_blob = textblob.TextBlob("yes")
-                while further_analyze_blob.correct().lower() == "yes":
+                while further_analyze_blob.lower().correct() == "yes":
                     analysis_type_blob = textblob.TextBlob(input("What would you like to see \n (background/reception/poster/wordcloud/sentiment)? "))
-                    if analysis_type_blob.correct().lower() == "background":
+                    if analysis_type_blob.lower().correct() == "background":
                         get_background()
-                    elif analysis_type_blob.correct().lower() == "reception":
+                    elif analysis_type_blob.lower().correct() == "reception":
                         get_reception()
-                    elif analysis_type_blob.correct().lower() == "poster":
+                    elif analysis_type_blob.lower().correct() == "poster":
                         get_poster()
-                    elif analysis_type_blob.correct().lower() == "wordcloud":
+                    elif analysis_type_blob.lower().correct() == "wordcloud":
                         get_wordcloud()
-                    elif analysis_type_blob.correct().lower() == "sentiment":
+                    elif analysis_type_blob.lower().correct() == "sentiment":
                         get_sentiment()
                     else:
                         print("Sorry, that analysis is not supported. Please try again.")
